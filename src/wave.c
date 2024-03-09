@@ -170,7 +170,7 @@ wave_file_t* wave_load_from_memory(size_t len, const uint8_t* data)
 		{
 			uint32_t data_size;
 			memcpy(&data_size, data + offset + 4, 4);
-			from_little_endian((uint8_t * ) & data_size, 4);
+			from_little_endian((uint8_t*)&data_size, 4);
 
 			offset += 4;
 		}
@@ -179,7 +179,7 @@ wave_file_t* wave_load_from_memory(size_t len, const uint8_t* data)
 			uint32_t chunk_size;
 			memcpy(&chunk_size, data + offset + 4, 4);
 
-			from_little_endian((uint8_t * ) & chunk_size, 4);
+			from_little_endian((uint8_t*)&chunk_size, 4);
 			if (chunk_size < 16)
 			{
 				wave_push_error(WAVE_ERROR_INVALID_FORMAT);
@@ -191,7 +191,7 @@ wave_file_t* wave_load_from_memory(size_t len, const uint8_t* data)
 
 			memcpy(&format, data + offset + 8, 2);
 
-			from_little_endian((uint8_t * ) & format, 2);
+			from_little_endian((uint8_t*)&format, 2);
 			if (format != 1)
 			{
 				wave_push_error(WAVE_ERROR_INVALID_FORMAT);
@@ -205,26 +205,26 @@ wave_file_t* wave_load_from_memory(size_t len, const uint8_t* data)
 			uint16_t num_channels;
 
 			memcpy(&num_channels, data + offset + 10, 2);
-			from_little_endian((uint8_t * ) & num_channels, 2);
+			from_little_endian((uint8_t*)&num_channels, 2);
 			wave->num_channels = num_channels;
 
 			uint32_t sample_rate;
 			memcpy(&sample_rate, data + offset + 12, 4);
-			from_little_endian((uint8_t * ) & sample_rate, 4);
+			from_little_endian((uint8_t*)&sample_rate, 4);
 
 			wave->sample_rate = sample_rate;
 
 			uint32_t byte_rate;
 			memcpy(&byte_rate, data + offset + 16, 4);
-			from_little_endian((uint8_t * ) & byte_rate, 4);
+			from_little_endian((uint8_t*)&byte_rate, 4);
 
 			uint16_t block_align;
 			memcpy(&block_align, data + offset + 20, 2);
-			from_little_endian((uint8_t * ) & block_align, 2);
+			from_little_endian((uint8_t*)&block_align, 2);
 
 			uint16_t bits_per_sample;
 			memcpy(&bits_per_sample, data + offset + 22, 2);
-			from_little_endian((uint8_t * ) & bits_per_sample, 2);
+			from_little_endian((uint8_t*)&bits_per_sample, 2);
 
 			wave->bits_per_sample = bits_per_sample;
 
@@ -234,7 +234,7 @@ wave_file_t* wave_load_from_memory(size_t len, const uint8_t* data)
 		{
 			uint32_t chunk_size;
 			memcpy(&chunk_size, data + offset + 4, 4);
-			from_little_endian((uint8_t * ) & chunk_size, 4);
+			from_little_endian((uint8_t*)&chunk_size, 4);
 			wave->data_size = chunk_size;
 
 			wave->data = malloc(chunk_size);
@@ -284,37 +284,37 @@ uint8_t wave_save_to_file(const char* filename, wave_file_t* wave)
 	fwrite("RIFF", 1, 4, f);
 
 	uint32_t data_size = 36 + wave->data_size;
-	to_little_endian((uint8_t * ) & data_size, 4);
+	to_little_endian((uint8_t*)&data_size, 4);
 	fwrite(&data_size, 1, 4, f);
 	fwrite("WAVE", 1, 4, f);
 	fwrite("fmt ", 1, 4, f);
 
 	uint32_t chunk_size = 16;
-	to_little_endian((uint8_t * ) & chunk_size, 4);
+	to_little_endian((uint8_t*)&chunk_size, 4);
 	fwrite(&chunk_size, 1, 4, f);
 
 	uint16_t format = 1;
-	to_little_endian((uint8_t * ) & format, 2);
+	to_little_endian((uint8_t*)&format, 2);
 	fwrite(&format, 1, 2, f);
 
 	uint16_t num_channels = wave->num_channels;
-	to_little_endian((uint8_t * ) & num_channels, 2);
+	to_little_endian((uint8_t*)&num_channels, 2);
 	fwrite(&num_channels, 1, 2, f);
 
 	uint32_t sample_rate = wave->sample_rate;
-	to_little_endian((uint8_t * ) & sample_rate, 4);
+	to_little_endian((uint8_t*)&sample_rate, 4);
 	fwrite(&sample_rate, 1, 4, f);
 
 	uint32_t byte_rate = wave->sample_rate * wave->num_channels * (wave->bits_per_sample / 8);
-	to_little_endian((uint8_t * ) & byte_rate, 4);
+	to_little_endian((uint8_t*)&byte_rate, 4);
 	fwrite(&byte_rate, 1, 4, f);
 
 	uint16_t block_align = wave->num_channels * (wave->bits_per_sample / 8);
-	to_little_endian((uint8_t * ) & block_align, 2);
+	to_little_endian((uint8_t*)&block_align, 2);
 	fwrite(&block_align, 1, 2, f);
 
 	uint16_t bits_per_sample = wave->bits_per_sample;
-	to_little_endian((uint8_t * ) & bits_per_sample, 2);
+	to_little_endian((uint8_t*)&bits_per_sample, 2);
 	fwrite(&bits_per_sample, 1, 2, f);
 	fwrite("data", 1, 4, f);
 
