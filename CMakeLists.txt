@@ -5,6 +5,8 @@ set(PROJECT_VERSION_MAJOR "0")
 
 project(wave VERSION ${PROJECT_VERSION})
 
+include (TestBigEndian)
+
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
@@ -25,6 +27,9 @@ endif ()
 if (MINGW)
     link_libraries(-static-libgcc)
 endif ()
+
+TEST_BIG_ENDIAN(IS_BIG_ENDIAN)
+add_compile_definitions(IS_BIG_ENDIAN=${IS_BIG_ENDIAN})
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
@@ -54,5 +59,10 @@ if (MINGW)
     set_target_properties(wave_shared PROPERTIES PREFIX "")
 endif ()
 
-set_target_properties(wave_static PROPERTIES OUTPUT_NAME wave)
-set_target_properties(wave_shared PROPERTIES OUTPUT_NAME wave)
+if (MSVC)
+    set_target_properties(wave_static PROPERTIES OUTPUT_NAME wave_s)
+    set_target_properties(wave_shared PROPERTIES OUTPUT_NAME wave)
+else()
+    set_target_properties(wave_static PROPERTIES OUTPUT_NAME wave)
+    set_target_properties(wave_shared PROPERTIES OUTPUT_NAME wave)
+endif()
