@@ -18,6 +18,7 @@
 #define WAVE_H
 
 #include <stdint.h>
+#include <stddef.h>
 
 #ifdef __cplusplus
 	#define C_LINKAGE extern "C"
@@ -40,8 +41,12 @@
 #endif
 
 #define UNUSED(x) (void)(x)
-#define MAYBE_UNUSED __attribute__((unused))
 
+#ifdef _MSC_VER
+	#define MAYBE_UNUSED
+#else
+	#define MAYBE_UNUSED __attribute__((unused))
+#endif
 typedef struct
 {
 	uint16_t num_channels;
