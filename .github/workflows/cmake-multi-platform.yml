@@ -42,7 +42,7 @@ jobs:
               - cl
               - gcc
             cpp_compiler:
-              - cl,
+              - cl
               - g++
 
     steps:
