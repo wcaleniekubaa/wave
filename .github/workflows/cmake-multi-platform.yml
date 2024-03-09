@@ -21,9 +21,6 @@ jobs:
           - os: windows-latest
             c_compiler: cl
             cpp_compiler: cl
-          - os: windows-latest
-            c_compiler: mingw32
-            cpp_compiler: mingw32
           - os: ubuntu-latest
             c_compiler: gcc
             cpp_compiler: g++
@@ -72,7 +69,7 @@ jobs:
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v4.3.1
         with:
-          name: 'wave-artifact'
+          name: 'wave-${{ matrix.os }}-${{ matrix.c_compiler }}'
           path: ${{ steps.strings.outputs.build-output-dir }}
           if-no-files-found: 'warn'
           retention-days: 30
