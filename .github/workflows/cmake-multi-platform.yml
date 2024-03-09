@@ -67,9 +67,10 @@ jobs:
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v4.3.1
         with:
-          name: 'wave-artifact'
+          name: 'wave-artifact-${{ matrix.os }}-${{ matrix.c_compiler }}'
           path: ${{ steps.strings.outputs.build-output-dir }}
           if-no-files-found: 'warn'
           retention-days: 30
           compression-level: 6
           overwrite: false
+
