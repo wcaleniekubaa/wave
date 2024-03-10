@@ -47,6 +47,12 @@
 #else
 	#define MAYBE_UNUSED __attribute__((unused))
 #endif
+/**
+ * Simple representation of a WAV file.
+ * @see wave_file_load
+ * @see wave_file_free
+ * @see wave_file_save
+ */
 typedef struct
 {
 	uint16_t num_channels;
@@ -56,6 +62,10 @@ typedef struct
 	uint8_t *data;
 } wave_file_t;
 
+/**
+ * Error codes.
+ * @see wave_get_error
+ */
 typedef enum
 {
 	WAVE_ERROR_HEAP_FAIL,
@@ -66,11 +76,49 @@ typedef enum
 	WAVE_ERROR_NONE
 } wave_error_t;
 
+/**
+ * Loads a WAV file from disk.
+ * @param filename The path to the WAV file.
+ * @return The WAV file, or NULL if an error occurred.
+ * @see wave_file_free
+ */
 WAVE_API wave_file_t *wave_file_load(const char *filename);
+
+/**
+ * Loads a WAV file from memory.
+ * @param len The length of the data.
+ * @param data Pointer to the data.
+ * @return The WAV file, or NULL if an error occurred.
+ * @see wave_file_load
+ */
 WAVE_API wave_file_t *wave_load_from_memory(size_t len, const uint8_t *data);
+/**
+ * Frees a WAV file.
+ * @param wave The WAV file.
+ * @see wave_file_load
+ */
 WAVE_API void wave_file_free(wave_file_t *wave);
+
+/**
+ * Returns the last error that occurred.
+ * @return The last error that occurred.
+ * @see wave_error_t
+ */
 WAVE_API wave_error_t wave_file_get_error(void);
+
+/**
+ * Returns a human-readable string for a given error.
+ * @param error The error.
+ * @return String describing the error.
+ */
 WAVE_API const char* wave_error_to_str(wave_error_t error);
+
+/**
+ * Saves a WAV file to disk.
+ * @param filename The path to the WAV file to save to.
+ * @param wave The WAV file to save.
+ * @return 1 if the WAV file was saved successfully, 0 otherwise.
+ */
 WAVE_API uint8_t wave_save_to_file(const char *filename, wave_file_t *wave);
 
 #endif //WAVE_H

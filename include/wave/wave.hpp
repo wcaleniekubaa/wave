@@ -148,6 +148,16 @@ namespace wave
 		{
 			return m_file->data;
 		}
+
+		inline const wave_file_t* get() const
+		{
+			return m_file;
+		}
+
+		inline wave_file_t* get()
+		{
+			return m_file;
+		}
 	private:
 		wave_file_t* m_file;
 	};

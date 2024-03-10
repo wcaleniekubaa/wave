@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.27)
 
-set(PROJECT_VERSION "0.1.0")
-set(PROJECT_VERSION_MAJOR "0")
+set(PROJECT_VERSION "1.0")
+set(PROJECT_VERSION_MAJOR "1")
 
 project(wave VERSION ${PROJECT_VERSION})
 
@@ -19,10 +19,6 @@ set(WAVE_SOURCES
         include/wave/wave.h
         include/wave/wave.hpp
         src/wave.c)
-
-if (UNIX)
-    link_libraries(m)
-endif ()
 
 if (MINGW)
     link_libraries(-static-libgcc)
@@ -65,4 +61,8 @@ if (MSVC)
 else()
     set_target_properties(wave_static PROPERTIES OUTPUT_NAME wave)
     set_target_properties(wave_shared PROPERTIES OUTPUT_NAME wave)
+endif()
+
+if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
+    message(FATAL_ERROR "In-source builds are not allowed. Please use an out-of-source build.")
 endif()
